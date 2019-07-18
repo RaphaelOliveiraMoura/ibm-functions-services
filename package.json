@@ -1,13 +1,13 @@
 {
-  "name": "language-translator",
+  "name": "ibm-cloud-functions-services",
   "version": "1.0.0",
   "description": "",
-  "main": "index.js",
+  "main": ".",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": [],
-  "author": "",
+  "author": "Raphael de Oliveira Moura",
   "license": "ISC",
   "dependencies": {
     "ibm-watson": "^4.2.3",
