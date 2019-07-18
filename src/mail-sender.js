@@ -15,19 +15,14 @@ const params = {
 
 async function main() {
   try {
-    const result = await sendEmail(params);
+    const transporter = buildTransporter(params);
+    const mailOptions = buildMailOptions(params);
+    const result = await makeRequestToSendEmail(transporter, mailOptions);
     return (JSON.stringify(result, null, 2));
   } catch (error) {
     const errorMessage = error.message ? error.message : error;
     return ({ error: errorMessage });
   }
-}
-
-async function sendEmail(params) {
-  const transporter = buildTransporter(params);
-  const mailOptions = buildMailOptions(params);
-  const response = await makeRequestToSendEmail(transporter, mailOptions);
-  return response;
 }
 
 function buildTransporter(params) {
