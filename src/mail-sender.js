@@ -20,14 +20,14 @@ async function main() {
     const result = await makeRequestToSendEmail(transporter, mailOptions);
     return (JSON.stringify(result, null, 2));
   } catch (error) {
-    const errorMessage = error.message ? error.message : error;
+    const errorMessage = error.message || error;
     return ({ error: errorMessage });
   }
 }
 
 function buildTransporter(params) {
   const { email, password } = params;
-  const service = email.split('@').pop().split('.')[0];
+  const service = findServiceInCompleteEmail(email);
   const transporter = nodemailer.createTransport({
     service: service,
     auth: {
@@ -36,6 +36,15 @@ function buildTransporter(params) {
     }
   });
   return transporter;
+}
+
+function findServiceInCompleteEmail(email) {
+  try {
+    const service = email.split('@').pop().split('.')[0];
+    return service;
+  } catch (error) {
+    throw new Error('invalid email');
+  }
 }
 
 function buildMailOptions(params) {
