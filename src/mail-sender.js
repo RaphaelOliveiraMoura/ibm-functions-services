@@ -1,0 +1,64 @@
+const nodemailer = require('nodemailer');
+
+const params = {
+  email: 'raphaeldeoliveiramoura@hotmail.com',
+  password: 'xxx',
+  remitee: 'brunosantosprotec@gmail.com',
+  subject: 'Email pro bruno',
+  body: 'This email was made with a cloud function'
+};
+
+(async () => {
+  const output = await main(params);
+  console.log(output);
+})()
+
+async function main() {
+  try {
+    const result = await sendEmail(params);
+    return (JSON.stringify(result, null, 2));
+  } catch (error) {
+    const errorMessage = error.message ? error.message : error;
+    return ({ error: errorMessage });
+  }
+}
+
+async function sendEmail(params) {
+  const transporter = buildTransporter(params);
+  const mailOptions = buildMailOptions(params);
+  const response = await makeRequestToSendEmail(transporter, mailOptions);
+  return response;
+}
+
+function buildTransporter(params) {
+  const { email, password } = params;
+  const service = email.split('@').pop().split('.')[0];
+  const transporter = nodemailer.createTransport({
+    service: service,
+    auth: {
+      user: email,
+      pass: password
+    }
+  });
+  return transporter;
+}
+
+function buildMailOptions(params) {
+  const { email, remitee, subject, body } = params;
+  const mailOptions = {
+    from: email,
+    to: remitee,
+    subject: subject,
+    html: body
+  };
+  return mailOptions;
+}
+
+function makeRequestToSendEmail(transporter, mailOptions) {
+  return new Promise((resolve, reject) => {
+    transporter.sendMail(mailOptions, function (error, info) {
+      if (error) reject(error);
+      resolve(info);
+    });
+  });
+}
