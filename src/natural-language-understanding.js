@@ -5,7 +5,7 @@ const version = '2019-07-12';
 
 const params = {
   "analyzeParams": {
-    "url": "https://brizeno.wordpress.com/2011/09/17/mao-na-massa-factory-method/",
+    "url": "https://globoesporte.globo.com/futebol/",
     "features": {
       "categories": {
         "limit": 3
@@ -14,10 +14,9 @@ const params = {
   }
 };
 
-(async () => {
-  const output = await main(params);
+main(params).then(output => {
   console.log(output);
-})();
+});
 
 async function main(params) {
   try {

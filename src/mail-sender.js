@@ -8,10 +8,9 @@ const params = {
   body: 'This email was made with a cloud function'
 };
 
-(async () => {
-  const output = await main(params);
+main(params).then(output => {
   console.log(output);
-})()
+});
 
 async function main() {
   try {

@@ -9,10 +9,9 @@ const params = {
   "to": "pt"
 };
 
-(async () => {
-  const output = await main(params);
+main(params).then(output => {
   console.log(output);
-})();
+});
 
 async function main(params) {
   try {
